@@ -867,21 +867,50 @@ footer{border-top:1px solid var(--line); padding:44px 0}
 </div>
 
 <script>
-try{
-  var chips=document.querySelectorAll('#chips .chip');
-  function pick(t){chips.forEach(function(c){c.classList.toggle('active',c.dataset.value===t)})}
-  chips.forEach(function(c){c.addEventListener('click',function(){pick(c.dataset.value)})});
-  document.querySelectorAll('[data-topic]').forEach(function(b){b.addEventListener('click',function(){pick(b.dataset.topic)})});
-}catch(e){}
-try{
-  var menu=document.getElementById('menu'),bg=document.getElementById('burger');
-  bg.addEventListener('click',function(){var o=menu.classList.toggle('open');bg.setAttribute('aria-expanded',o)});
-  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');bg.setAttribute('aria-expanded',false)})});
-}catch(e){}
-try{
-  var f=document.getElementById('lead-form');
+<script>
+try {
+  var chips = document.querySelectorAll('#chips .chip');
 
-  f.addEventListener('submit', async function(e){
+  function pick(t) {
+    chips.forEach(function(c) {
+      c.classList.toggle('active', c.dataset.value === t);
+    });
+  }
+
+  chips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      pick(c.dataset.value);
+    });
+  });
+
+  document.querySelectorAll('[data-topic]').forEach(function(b) {
+    b.addEventListener('click', function() {
+      pick(b.dataset.topic);
+    });
+  });
+} catch(e) {}
+
+try {
+  var menu = document.getElementById('menu');
+  var bg = document.getElementById('burger');
+
+  bg.addEventListener('click', function() {
+    var o = menu.classList.toggle('open');
+    bg.setAttribute('aria-expanded', o);
+  });
+
+  menu.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      menu.classList.remove('open');
+      bg.setAttribute('aria-expanded', false);
+    });
+  });
+} catch(e) {}
+
+try {
+  var f = document.getElementById('lead-form');
+
+  f.addEventListener('submit', async function(e) {
     e.preventDefault();
 
     var name = document.getElementById('name').value.trim();
@@ -889,7 +918,9 @@ try{
     var comment = document.getElementById('comment').value.trim();
 
     var activeChip = document.querySelector('#chips .chip.active');
-    var topic = activeChip ? activeChip.dataset.value : 'Не знаю';
+    var topic = activeChip
+      ? activeChip.dataset.value
+      : 'Не знаю';
 
     var button = f.querySelector('button[type="submit"]');
     var originalText = button.textContent;
@@ -927,81 +958,82 @@ try{
 
     } catch(error) {
       console.error(error);
-      alert('Не удалось отправить заявку. Позвоните нам по телефону +7 910 914-05-94.');
+      alert(
+        'Не удалось отправить заявку. Позвоните нам по телефону +7 910 914-05-94.'
+      );
     }
 
     button.disabled = false;
     button.textContent = originalText;
   });
 
-}catch(e){}
-try{
-  var m=document.getElementById('pm');
-  var op=function(){m.classList.add('show');m.setAttribute('aria-hidden','false')},cl=function(){m.classList.remove('show');m.setAttribute('aria-hidden','true')};
-  document.getElementById('p-open').addEventListener('click',op);
-  document.getElementById('p-close').addEventListener('click',cl);
-  document.getElementById('p-ok').addEventListener('click',cl);
-  m.addEventListener('click',function(e){if(e.target===m)cl()});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')cl()});
-}catch(e){}
-try{
-  var els=document.querySelectorAll('.rv');
-  if('IntersectionObserver' in window){
-    els.forEach(function(el){el.classList.add('rv-pre');var i=Array.prototype.indexOf.call(el.parentElement.children,el);el.style.transitionDelay=Math.min(i,4)*80+'ms'});
-    var io=new IntersectionObserver(function(en){en.forEach(function(x){x.target.classList.toggle('rv-in',x.isIntersecting)})},{threshold:.12,rootMargin:'0px 0px -30px 0px'});
-    els.forEach(function(el){io.observe(el)});
+} catch(e) {}
+
+try {
+  var m = document.getElementById('pm');
+
+  var op = function() {
+    m.classList.add('show');
+    m.setAttribute('aria-hidden', 'false');
+  };
+
+  var cl = function() {
+    m.classList.remove('show');
+    m.setAttribute('aria-hidden', 'true');
+  };
+
+  document.getElementById('p-open').addEventListener('click', op);
+  document.getElementById('p-close').addEventListener('click', cl);
+  document.getElementById('p-ok').addEventListener('click', cl);
+
+  m.addEventListener('click', function(e) {
+    if (e.target === m) cl();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') cl();
+  });
+
+} catch(e) {}
+
+try {
+  var els = document.querySelectorAll('.rv');
+
+  if ('IntersectionObserver' in window) {
+    els.forEach(function(el) {
+      el.classList.add('rv-pre');
+
+      var i = Array.prototype.indexOf.call(
+        el.parentElement.children,
+        el
+      );
+
+      el.style.transitionDelay =
+        Math.min(i, 4) * 80 + 'ms';
+    });
+
+    var io = new IntersectionObserver(
+      function(en) {
+        en.forEach(function(x) {
+          x.target.classList.toggle(
+            'rv-in',
+            x.isIntersecting
+          );
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: '0px 0px -30px 0px'
+      }
+    );
+
+    els.forEach(function(el) {
+      io.observe(el);
+    });
   }
-}catch(e){}
+
+} catch(e) {}
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script>
-try{
-  if(window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matchMedia('(min-width: 981px)').matches){
-    var cord=document.getElementById('hero-main-cord');
-    var pulseCord=document.getElementById('hero-pulse-cord');
-    var cordLength=cord.getTotalLength();
-    var pulseLength=380;
-    var faucetOpen='#hero-faucet-open', faucetClosed='#hero-faucet-closed';
-
-    var tl=gsap.timeline({repeat:-1});
-    tl.set(faucetOpen,{opacity:1}).set(faucetClosed,{opacity:0}).to({},{duration:.3});
-
-    ['#hero-drop-1','#hero-drop-2','#hero-drop-3'].forEach(function(id){
-      tl.set(id,{opacity:1,scale:.2,y:0,svgOrigin:'414.75 716'})
-        .to(id,{scale:1,duration:.15,ease:'back.out(2)'})
-        .to(id,{y:150,duration:.45,ease:'power2.in'},'>0.04')
-        .to(id,{opacity:0,duration:.12},'-=0.12');
-    });
-
-    tl.set(faucetClosed,{opacity:1}).set(faucetOpen,{opacity:0});
-
-    tl.call(function(){
-      pulseCord.setAttribute('stroke','url(#heroPulseForward)');
-      gsap.set(pulseCord,{strokeDasharray:pulseLength+' '+cordLength,strokeDashoffset:-cordLength,opacity:1});
-    },null,'-=0.05');
-
-    tl.to(pulseCord,{strokeDashoffset:pulseLength,duration:1.6,ease:'power2.inOut'})
-      .to(pulseCord,{opacity:0,duration:.1});
-
-    tl.to('#hero-plug',{x:'+=6',yoyo:true,repeat:5,duration:.04});
-
-    tl.fromTo(['#hero-bolt-1','#hero-bolt-2','#hero-bolt-3'],
-      {scale:.2,opacity:0,transformOrigin:'center center'},
-      {scale:1,opacity:1,duration:.25,stagger:.06,ease:'back.out(2.5)'},
-      '-=0.15'
-    ).to(['#hero-bolt-1','#hero-bolt-2','#hero-bolt-3'],{opacity:0,scale:.6,duration:.25,delay:.2});
-
-    tl.call(function(){
-      pulseCord.setAttribute('stroke','url(#heroPulseBackward)');
-      gsap.set(pulseCord,{strokeDasharray:pulseLength+' '+cordLength,strokeDashoffset:pulseLength,opacity:1});
-    });
-
-    tl.to(pulseCord,{strokeDashoffset:-cordLength,duration:1.6,ease:'power2.inOut'})
-      .to(pulseCord,{opacity:0,duration:.1});
-
-    tl.set(faucetOpen,{opacity:1},'+=0.2').set(faucetClosed,{opacity:0});
-  }
-}catch(e){}
 </script>
 </body>
 </html>
