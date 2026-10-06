@@ -975,7 +975,12 @@ try {
     var name = document.getElementById('name').value.trim();
     var phone = '+7 ' + document.getElementById('phone').value.trim();
     var comment = document.getElementById('comment').value.trim();
+var phoneDigits = document.getElementById('phone').value.replace(/\D/g, '');
 
+if (phoneDigits.length !== 10) {
+  alert('Введите полный номер телефона: 10 цифр после +7.');
+  return;
+}
     var activeChip = document.querySelector('#chips .chip.active');
     var topic = activeChip
       ? activeChip.dataset.value
