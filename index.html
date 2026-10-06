@@ -830,7 +830,25 @@ footer{border-top:1px solid var(--line); padding:44px 0}
       <form id="lead-form">
         <div class="field"><label for="name">Имя</label><input id="name" name="name" type="text" placeholder="Как к вам обращаться" required></div>
         <div class="field"><label for="phone">Телефон</label>
-          <div class="phone-input"><span class="pre">+7</span><input id="phone" name="phone_local" type="tel" inputmode="numeric" placeholder="900 000-00-00" required></div>
+         <div class="field">
+  <label for="phone">Телефон</label>
+
+  <div class="phone-input">
+    <div class="pre">+7</div>
+    <input
+      id="phone"
+      name="phone_local"
+      type="tel"
+      inputmode="numeric"
+      autocomplete="tel"
+      placeholder="(___) ___-__-__"
+      maxlength="15"
+      required
+    >
+  </div>
+</div>
+
+<input type="hidden" id="phone-full" name="phone">
           <input type="hidden" name="phone" id="phone-full"></div>
         <div class="field"><label for="comment">Комментарий (необязательно)</label><textarea id="comment" name="comment" rows="3" placeholder="Кратко опишите задачу"></textarea></div>
         <button type="submit" class="btn btn-p">Подобрать решение</button>
@@ -906,7 +924,49 @@ try {
     });
   });
 } catch(e) {}
+try {
+  var phoneInput = document.getElementById('phone');
 
+  phoneInput.addEventListener('input', function(e) {
+    var digits = e.target.value.replace(/\D/g, '');
+
+    // Максимум 10 цифр после +7
+    digits = digits.substring(0, 10);
+
+    var result = '';
+
+    if (digits.length > 0) {
+      result = '(' + digits.substring(0, 3);
+    }
+
+    if (digits.length >= 3) {
+      result += ') ';
+    }
+
+    if (digits.length > 3) {
+      result += digits.substring(3, 6);
+    }
+
+    if (digits.length >= 6) {
+      result += '-';
+    }
+
+    if (digits.length > 6) {
+      result += digits.substring(6, 8);
+    }
+
+    if (digits.length >= 8) {
+      result += '-';
+    }
+
+    if (digits.length > 8) {
+      result += digits.substring(8, 10);
+    }
+
+    e.target.value = result;
+  });
+
+} catch(e) {}
 try {
   var f = document.getElementById('lead-form');
 
