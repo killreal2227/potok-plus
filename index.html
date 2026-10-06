@@ -879,13 +879,62 @@ try{
   menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');bg.setAttribute('aria-expanded',false)})});
 }catch(e){}
 try{
+try{
   var f=document.getElementById('lead-form');
-  f.addEventListener('submit',function(e){
+
+  f.addEventListener('submit', async function(e){
     e.preventDefault();
-    document.getElementById('phone-full').value='+7 '+document.getElementById('phone').value.trim();
-    document.getElementById('ok').classList.add('show');
-    f.reset();pick('Не знаю');
+
+    var name = document.getElementById('name').value.trim();
+    var phone = '+7 ' + document.getElementById('phone').value.trim();
+    var comment = document.getElementById('comment').value.trim();
+
+    var activeChip = document.querySelector('#chips .chip.active');
+    var topic = activeChip ? activeChip.dataset.value : 'Не знаю';
+
+    var button = f.querySelector('button[type="submit"]');
+    var originalText = button.textContent;
+
+    button.disabled = true;
+    button.textContent = 'Отправляем...';
+
+    try {
+      var response = await fetch(
+        'https://potok-plus-telegram.killreal2227.workers.dev/',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: name,
+            phone: phone,
+            topic: topic,
+            comment: comment
+          })
+        }
+      );
+
+      var result = await response.json();
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || 'Ошибка отправки');
+      }
+
+      document.getElementById('ok').classList.add('show');
+
+      f.reset();
+      pick('Не знаю');
+
+    } catch(error) {
+      console.error(error);
+      alert('Не удалось отправить заявку. Позвоните нам по телефону +7 910 914-05-94.');
+    }
+
+    button.disabled = false;
+    button.textContent = originalText;
   });
+
 }catch(e){}
 try{
   var m=document.getElementById('pm');
