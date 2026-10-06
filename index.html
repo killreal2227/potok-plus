@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Поток+ — сантехника и электрика</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f5f8; --white:#fff; --tint:#eceaf6; --ink:#23232c; --muted:#666674;
+  --violet:#7b61e8; --violet-d:#6449d4; --yellow:#f2b81c; --line:rgba(35,35,44,.13);
+  --grad:linear-gradient(90deg,var(--violet),var(--yellow));
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); box-sizing:border-box;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:calc(76px + env(safe-area-inset-top,0px)); height:100%}
+body{margin:0; min-height:100%; background:var(--bg); color:var(--ink); font-family:'Manrope',sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden}
+h1,h2,h3{font-weight:800; letter-spacing:-.03em; line-height:1.1; margin:0}
+p{margin:0} a{color:inherit} svg{display:block}
+.wrap{max-width:1180px; margin:0 auto; padding:0 24px}
+.logo{font-family:'Unbounded',sans-serif; font-weight:800; font-size:27px; letter-spacing:-.03em; text-decoration:none; color:var(--ink); line-height:1; white-space:nowrap}
+.logo b{color:var(--violet); font-weight:800}
+.ic{width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+
+.pic{display:block; width:30px; height:auto; flex-shrink:0}
+.tri .pic{width:40px}
+.pic.big{width:60px; margin-bottom:20px}
+.w .pic{width:42px; margin-bottom:16px}
+
+/* header */
+header{position:sticky; top:0; z-index:50; padding-top:env(safe-area-inset-top,0px); background:rgba(245,245,248,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+.nav{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; height:72px}
+.nav-links{display:flex; gap:34px; font-size:15px; font-weight:600; color:var(--muted)}
+.nav-links a{text-decoration:none; transition:color .2s} .nav-links a:hover{color:var(--ink)}
+.nav-cta{justify-self:end}
+.burger{display:none; justify-self:end; background:none; border:1px solid var(--line); border-radius:10px; width:44px; height:44px; color:var(--ink); cursor:pointer}
+.btn{display:inline-flex; align-items:center; justify-content:center; font:700 15px 'Manrope',sans-serif; padding:14px 24px; border-radius:10px; border:1.5px solid transparent; cursor:pointer; text-decoration:none; transition:background .2s,border-color .2s,transform .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--violet); color:#fff} .btn-p:hover{background:var(--violet-d)}
+.btn-o{background:transparent; color:var(--ink); border-color:var(--ink)} .btn-o:hover{background:var(--ink); color:#fff}
+.btn-sm{padding:11px 20px}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--violet); outline-offset:2px}
+
+/* hero */
+.hero{padding:80px 0 88px; background:var(--tint)}
+.hero-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(400px,1.2fr); gap:28px; align-items:end}
+.hero-grid>*{min-width:0}
+.eyebrow{font-size:13px; font-weight:800; letter-spacing:.12em; color:var(--violet); margin-bottom:22px}
+h1{font-size:clamp(30px,3.7vw,44px); margin-bottom:24px; text-wrap:balance}
+.hero p.lead{font-size:17px; color:var(--muted); width:100%; max-width:440px; margin-bottom:32px}
+.actions{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:34px}
+.phone{font-size:14px; color:var(--muted)} .phone a{color:var(--ink); font-weight:700; text-decoration:none}
+
+.flow{width:100%; aspect-ratio:1572/972.22; height:auto; display:block; overflow:visible}
+.hd,.hb{opacity:0}
+#hero-faucet-open{opacity:1} #hero-faucet-closed{opacity:0}
+@media (prefers-reduced-motion:reduce){
+  #hero-pulse-cord,.hd,.hb{display:none}
+  #hero-faucet-open{opacity:0} #hero-faucet-closed{opacity:1}
+}
+.spark{animation:spark 7s linear infinite}
+@keyframes spark{to{stroke-dashoffset:-248}}
+
+/* sections */
+section{padding:88px 0}
+.head{max-width:640px; margin-bottom:44px}
+.head h2{font-size:clamp(28px,3.4vw,42px); margin-bottom:14px}
+.head p{color:var(--muted); font-size:17px}
+.zone-w{background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+.zone-t{background:var(--tint)}
+
+/* trio */
+.trio{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px}
+.tri{border-top:3px solid var(--c); padding:22px 0 0; min-width:0}
+.tri .top{display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; color:var(--c)}
+.tri .n{font-size:13px; font-weight:800; color:var(--muted)}
+.tri h3{font-size:20px; letter-spacing:.04em; margin-bottom:10px}
+.tri p{color:var(--muted); font-size:15px}
+.v{--c:var(--violet)} .y{--c:var(--yellow)} .m{--c:var(--ink)}
+
+/* services */
+.two{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+.card{background:var(--white); border:1px solid var(--line); border-radius:18px; padding:32px; border-top:4px solid var(--c); display:flex; flex-direction:column}
+
+.card h3{font-size:26px; margin-bottom:8px}
+.card .d{color:var(--muted); margin-bottom:22px}
+.list{list-style:none; padding:0; margin:0 0 28px; display:grid; grid-template-columns:1fr 1fr; gap:10px 18px; flex:1; align-content:start}
+.list li{font-size:15px; font-weight:600; padding-left:22px; position:relative}
+.list li::before{content:"✓"; position:absolute; left:0; color:var(--c); font-weight:800}
+.card .btn{align-self:flex-start}
+.note{margin-top:20px; color:var(--muted); font-size:15px}
+
+/* categories */
+.grp{display:flex; align-items:center; gap:12px; margin:0 0 16px; font-size:13px; font-weight:800; letter-spacing:.12em; color:var(--c)}
+.grp::after{content:""; flex:1; height:1px; background:var(--line)}
+.cats{display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-bottom:34px}
+.cats.v{--tile:#f1f0fd}.cats.y{--tile:#fdf7e9}
+.cat{display:flex; flex-direction:column; gap:12px; text-decoration:none; text-align:center; min-width:0}
+.cat .ico{width:100%; aspect-ratio:1/.88; border-radius:18px; display:grid; place-items:center; background:var(--tile); border:1.5px solid transparent; transition:border-color .2s}
+.cat:hover .ico{border-color:var(--c)}
+.cat .pic{width:54%}
+.cat span{font-size:15px; font-weight:700; line-height:1.25}
+.soon{color:var(--muted); font-size:15px}
+
+/* cta */
+.cta{background:var(--ink); color:#fff; border-radius:22px; padding:56px; text-align:center; display:flex; flex-direction:column; align-items:center}
+.cta h2{max-width:28ch} .cta p{max-width:46ch; margin-left:auto; margin-right:auto}
+.cta h2{font-size:clamp(28px,3.4vw,40px); margin-bottom:16px}
+.cta p{color:#b9b9c6; margin-bottom:28px; max-width:44ch; font-size:17px}
+
+/* steps */
+.steps{position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:24px}
+.steps::before{content:""; position:absolute; top:17px; left:0; right:0; height:2px; background:var(--grad)}
+.step{position:relative}
+.step .num{position:relative; width:36px; height:36px; border-radius:10px; background:var(--bg); border:2px solid var(--c); color:var(--ink); font-size:13px; font-weight:800; display:grid; place-items:center; margin-bottom:18px}
+.step h3{font-size:19px; margin-bottom:6px}
+.step p{color:var(--muted); font-size:15px}
+
+/* why */
+.why{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:32px}
+.w{border-top:2px solid var(--c); padding:20px 0 0; min-width:0}
+.w .ic{width:28px; height:28px; margin-bottom:16px; color:var(--c)}
+.w h3{font-size:17px; margin-bottom:6px}
+.w p{color:var(--muted); font-size:14.5px}
+
+/* form */
+.form-box{background:var(--white); border:1px solid var(--line); border-radius:22px; padding:44px; display:grid; grid-template-columns:.9fr 1.1fr; gap:44px; max-width:1000px; margin:0 auto}
+.form-box h2{font-size:clamp(26px,3vw,34px); margin-bottom:12px}
+.form-box .sub{color:var(--muted); margin-bottom:22px}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip{padding:9px 14px; border-radius:9px; border:1px solid var(--line); background:transparent; color:var(--muted); font:600 14px 'Manrope',sans-serif; cursor:pointer; transition:.2s}
+.chip.active{background:var(--ink); border-color:var(--ink); color:#fff}
+form{display:grid; gap:14px; align-content:start}
+.field label{display:block; font-size:13px; font-weight:600; color:var(--muted); margin-bottom:6px}
+.field input,.field textarea{width:100%; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:13px 14px; color:var(--ink); font:500 15px 'Manrope',sans-serif; resize:vertical}
+.phone-input{display:flex; background:var(--bg); border:1px solid var(--line); border-radius:10px; overflow:hidden}
+.phone-input:focus-within{outline:2px solid var(--violet); outline-offset:1px}
+.pre{display:flex; align-items:center; padding:0 12px; font-weight:800; border-right:1px solid var(--line); background:var(--white); user-select:none}
+.phone-input input{border:none; background:transparent; border-radius:0; flex:1; min-width:0}
+.phone-input input:focus-visible{outline:none}
+.fine{font-size:12.5px; color:var(--muted)}
+.link-btn{background:none; border:none; padding:0; color:var(--violet); text-decoration:underline; cursor:pointer; font:inherit}
+.ok{display:none; background:color-mix(in srgb,var(--violet) 10%,#fff); border:1px solid var(--violet); padding:13px 15px; border-radius:10px; font-size:14.5px}
+.ok.show{display:block}
+
+/* footer */
+footer{border-top:1px solid var(--line); padding:44px 0}
+.f-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start}
+.f-tag{color:var(--muted); margin-top:14px; max-width:34ch}
+.f-c{display:grid; gap:8px; font-size:14.5px; color:var(--muted)}
+.f-c strong{color:var(--ink); display:inline-block; min-width:90px}
+.copy{color:#8b8b98; font-size:13px; margin-top:28px}
+
+/* modal */
+.ov{position:fixed; inset:0; background:rgba(20,20,30,.5); display:none; align-items:center; justify-content:center; padding:20px; z-index:200}
+.ov.show{display:flex}
+.modal{background:#fff; border-radius:18px; max-width:480px; width:100%; padding:28px; max-height:86vh; overflow:auto}
+.mh{display:flex; justify-content:space-between; gap:16px; margin-bottom:14px}
+.mh h3{font-size:19px}
+.mx{background:none; border:none; font-size:26px; line-height:1; cursor:pointer; color:var(--muted); padding:0}
+.modal p{color:var(--muted); font-size:14.5px; margin-bottom:12px}
+
+/* reveal (fail-safe: visible by default) */
+.rv.rv-pre{opacity:0; transform:translateY(22px); transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1)}
+.rv.rv-pre.rv-in{opacity:1; transform:none}
+@media (prefers-reduced-motion:reduce){.spark{animation:none}.rv.rv-pre{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+@media (max-width:980px){
+  .nav{grid-template-columns:1fr auto}
+  .nav-links{display:none; position:absolute; top:100%; left:0; right:0; background:var(--bg); border-bottom:1px solid var(--line); flex-direction:column; gap:0; padding:8px 24px 16px}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:14px 0; border-bottom:1px solid var(--line); font-size:16px}
+  .nav-cta{display:none} .burger{display:grid; place-items:center}
+  .hero-grid,.cta,.form-box{grid-template-columns:1fr}
+  .hero-grid .flow{display:none}
+  .trio,.why{grid-template-columns:1fr 1fr; gap:28px}
+  .cats{grid-template-columns:repeat(3,1fr)}
+  .steps{grid-template-columns:1fr; gap:26px; padding-left:0}
+  .steps::before{top:18px; bottom:18px; left:17px; right:auto; width:2px; height:auto; background:linear-gradient(180deg,var(--violet),var(--yellow))}
+  .step{padding-left:56px} .step .num{position:absolute; left:0; top:0; margin:0}
+}
+@media (max-width:680px){
+  .wrap{padding:0 18px} section{padding:64px 0} .hero{padding:48px 0 56px}
+  .two,.trio,.why{grid-template-columns:minmax(0,1fr)}
+  .cats{grid-template-columns:1fr 1fr}
+  .list{grid-template-columns:1fr}
+  .cta,.form-box{padding:28px 22px}
+  .f-grid{grid-template-columns:1fr}
+  .logo{font-size:24px}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="tap" viewBox="10 40 135 175">
+      <g fill="#7b61e8">
+        <rect x="58" y="46" width="68" height="12" rx="6"/><rect x="88" y="58" width="8" height="22"/>
+        <rect x="70" y="80" width="44" height="48" rx="6"/><rect x="114" y="94" width="16" height="20"/>
+        <rect x="130" y="86" width="10" height="36" rx="5"/>
+        <path d="M28 168c0 0-9 12-9 20a9 9 0 0 0 18 0c0-8-9-20-9-20z"/>
+      </g>
+      <path d="M70 104H42a14 14 0 0 0-14 14v32" fill="none" stroke="#7b61e8" stroke-width="20"/>
+    </symbol>
+
+    <symbol id="ic-pipe" viewBox="1495.84 67.59 200.67 186.33">
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1628.27,110.01v26.88h-8.88c-5.09,0-9.22,4.13-9.22,9.22v2.25h-25.37c0-10.59,4.29-20.18,11.23-27.12,6.93-6.94,16.52-11.23,27.11-11.23h5.13Z"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1628.27,110.01v26.88h-8.88c-5.09,0-9.22,4.13-9.22,9.22v2.25h-25.37"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1610.17,148.36v-2.25c0-5.09,4.13-9.22,9.22-9.22h8.88"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1642.21,104.56v38.55c0,.54-.43.97-.97.97h-11.99c-.54,0-.98-.43-.98-.97v-38.55c0-.54.44-.98.98-.98h11.99c.54,0,.97.44.97.98Z"/>
+
+        <rect fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="1642.21" y="106.4" width="9.67" height="34.05" rx=".1"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1615.15,148.46v9.47s-.05.1-.1.1h-33.85c-.06,0-.1-.05-.1-.1v-9.47c0-.06.04-.1.1-.1h33.85s.1.04.1.1Z"/>
+
+        <rect fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="1642.21" y="180.24" width="9.67" height="34.05" rx=".1"/>
+
+        <rect fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="1540.46" y="180.24" width="9.67" height="34.05" rx=".1"/>
+
+        <rect fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="1591.15" y="144.75" width="13.94" height="40.5" rx="1.32" transform="translate(1433.12 1763.12) rotate(-90)"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="1650.11" y1="110.36" x2="1662.16" y2="110.36"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="1650.75" y1="136.89" x2="1662.16" y2="136.89"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="1564.08" y1="210.74" x2="1628.27" y2="210.74"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1610.17,171.97v10.34c0,1.05.85,1.9,1.9,1.9h16.2"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1584.8,171.97v9.59c0,1.46-1.18,2.65-2.65,2.65h-18.07"/>
+
+        <rect fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="1628.27" y="177.43" width="13.94" height="40.5" rx=".93"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="1651.89" y1="184.21" x2="1662.16" y2="184.21"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="1651.89" y1="210.74" x2="1662.16" y2="210.74"/>
+
+        <rect fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="1550.14" y="177.43" width="13.94" height="40.5" rx=".99" transform="translate(3114.21 395.36) rotate(-180)"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="1540.46" y1="184.21" x2="1530.19" y2="184.21"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="1540.46" y1="210.74" x2="1530.19" y2="210.74"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-mixer" viewBox="231.65 72.21 200.67 186.33">
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M278.9,189.31v23.33c0,2.35,1.9,4.25,4.25,4.25h30.17c2.35,0,4.25-1.9,4.25-4.25v-23.33c-.05-.62-.83-13.03,7.81-18.47,2.46-1.55,5-2.11,7.03-2.28h29.33c1.59,0,2.53.46,3.11,1.03,1.62,1.6.56,4.21,2.18,5.61.78.67,1.86.79,2.88.7h11.5c.5-.07,1.16-.24,1.79-.68,2.04-1.41,1.89-4.25,1.88-4.49v-14c.03-.58.19-4.19-2.6-6.96-2.1-2.09-4.62-2.46-5.4-2.54h-55.83c-.09.01-2.11.28-3.15-1.12-.37-.5-.49-1.04-.52-1.38v-14.83c0-.23.07-1.14.81-1.92.73-.78,1.63-.89,1.86-.92h38.25c3.59,0,6.5-2.91,6.5-6.5v-.67c0-3.59-2.91-6.5-6.5-6.5h-58.08c-.41,0-2.57.03-4.28,1.75-1.49,1.49-1.68,3.29-1.72,3.78v26.42c.01.18.07,1.53-.99,2.47-.78.7-1.69.75-1.95.75h-3.17c-.94.03-3.56.24-5.91,2.19-3.69,3.06-3.51,7.75-3.48,8.31v36.17"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M385.08,207.26c0,5.58-4.53,10.11-10.11,10.11s-10.12-4.53-10.12-10.11c0-1.78.46-3.45,1.26-4.89l7.15-13.26c.73-1.35,2.68-1.35,3.41,0l7.15,13.26c.8,1.44,1.26,3.11,1.26,4.89Z"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-sink" viewBox="477.69 70.84 200.67 186.33">
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M591.29,207.83v10.85c0,1.61-1.3,2.91-2.91,2.91h-20.73c-1.61,0-2.91-1.3-2.91-2.91v-10.85"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="4.95" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M604.12,121.6c0-3.41-1.37-7.13-3.61-10.02-2.24-2.9-5.35-4.98-8.83-5.14-7.45-.34-13.67,5.47-13.67,12.77v40.6"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M635.77,165.45v-2.2c0-1.9-1.54-3.44-3.44-3.44h-108.62c-1.9,0-3.44,1.54-3.44,3.44v2.2c0,9.16,3.75,17.66,10.17,24.67,8,8.76,20.14,15.2,34.3,17.71,4.26.75,8.71,1.15,13.28,1.15s9.01-.4,13.27-1.15c14.16-2.52,26.31-8.95,34.31-17.71,6.41-7.01,10.17-15.51,10.17-24.67Z"/>
+
+        <rect fill="none" stroke="#7b61e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x="592.33" y="148.47" width="10.04" height="11.34" rx="1.28"/>
+
+        <rect fill="none" stroke="#7b61e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x="553.65" y="148.47" width="10.04" height="11.34" rx="1.28"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-wc" viewBox="724.96 70.53 200.67 186.33">
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M826.52,156.59h22.83c.68-.29,3.25-1.13,4.61-3.71.59-1.12.75-2.18.78-2.89v-40.42c.01-.44-.02-1.62-.83-2.66-.99-1.28-2.53-1.92-4.4-1.95h-22.94c-7.61,0-17.9,0-25.52,0-1.86.03-3.41.67-4.4,1.95-.81,1.04-.84,2.22-.83,2.66v40.42c.04.71.2,1.77.78,2.89,1.36,2.58,3.93,3.43,4.61,3.71h25.34s14.55,0,14.55,0h14.94c2.07,0,3.05.22,3.05,2.08l.36,16.17c-.07,2.27-.47,5.13-1.68,8.2-3.8,9.61-12.7,13.69-15.16,14.72-.4.21-.92.53-1.44,1.03-.62.59-1,1.2-1.22,1.63-.17.34-.4.89-.47,1.6-.04.46,0,.85.05,1.15.28,5.19.56,10.39.83,15.58,0,.31-.04,1.44-.89,2.42-1.12,1.29-2.73,1.26-2.94,1.25h-8.67c-2.89,0-11,0-13.89,0-.22,0-1.82.04-2.94-1.25-.85-.98-.89-2.11-.89-2.42.28-5.19.56-10.39.83-15.58.05-.3.09-.69.05-1.15-.06-.71-.29-1.26-.47-1.6-.22-.43-.6-1.04-1.22-1.63-.52-.5-1.05-.83-1.44-1.03-2.45-1.03-11.36-5.11-15.16-14.72-1.21-3.06-1.6-5.92-1.68-8.2l.36-16.17c0-1.86.98-2.08,3.05-2.08h14.94"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-filter" viewBox="981.05 73.51 200.67 186.33">
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1113.54,132.93l-3.95,81.84c-.02.62-.46,8.16-6.39,11.43-2.12,1.17-4.21,1.4-5.61,1.4h-22.66c-1.22-.03-4.35-.28-7.25-2.52-4.75-3.69-4.76-9.59-4.75-10.31l-3.93-81.84h54.54Z"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="1058.72" y1="132.93" x2="1058.7" y2="132.5"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1113.55,110.88v5.22h-54.56v-5.22c-.01-.47-.02-3.26,2.2-5.41,1.9-1.84,4.17-2.01,4.75-2.04h40.66c.5.04,3.34.3,5.32,2.76,1.55,1.93,1.63,4.03,1.63,4.69Z"/>
+
+        <path fill="#f1f0fd" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1121.52,120.27v8.5c0,2.3-1.86,4.16-4.16,4.16h-62.17c-2.3,0-4.17-1.86-4.17-4.16v-8.5c0-2.3,1.87-4.17,4.17-4.17h62.17c2.3,0,4.16,1.87,4.16,4.17Z"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M1088.38,207.83h-3.68c-3.73,0-6.76-3.58-6.76-8l-1.76-66.9h20.72l-1.76,66.9c0,4.42-3.03,8-6.76,8Z"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-boiler" viewBox="1236.56 72.53 200.67 186.33">
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1378.2,113.62v85.3c0,3.28-3.14,5.93-7.01,5.93h-68.74c-3.87,0-7.01-2.66-7.01-5.93v-85.3c0-7.11,18.53-12.88,41.38-12.88s41.38,5.77,41.38,12.88Z"/>
+
+        <circle fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" cx="1336.81" cy="170.37" r="9.96"/>
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1356.53,204.85v8.18c0,3.28-2.66,5.93-5.93,5.93h-27.58c-3.28,0-5.93-2.66-5.93-5.93v-8.18"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1327.03" y1="218.96" x2="1327.03" y2="230.65"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1346.59" y1="218.96" x2="1346.59" y2="230.65"/>
+
+        <rect fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="1323.88" y="187.41" width="25.87" height="8.5" rx="2.58"/>
+
+        <line fill="none" stroke="#7b61e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1343.84" y1="163.35" x2="1336.81" y2="170.37"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-socket" viewBox="231.32 322.75 200.67 186.33">
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="280.15" y="365.83" width="103" height="100.17" rx="11.83"/>
+
+        <circle fill="none" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" cx="331.65" cy="415.92" r="37"/>
+
+        <circle fill="#f2b81c" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" cx="314.15" cy="415.71" r="4.54"/>
+
+        <circle fill="#f2b81c" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" cx="349.15" cy="415.71" r="4.54"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="331.65" y1="452.92" x2="331.65" y2="443.67"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="331.65" y1="388.17" x2="331.65" y2="378.92"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-switch" viewBox="477.65 322.75 200.67 186.33">
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="526.49" y="365.83" width="103" height="100.17" rx="11.83"/>
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="546.16" y="384.48" width="63.65" height="61.9" rx="11.83"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="577.99" y1="384.48" x2="577.99" y2="446.38"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-cable" viewBox="723.25 324.68 200.67 186.33">
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="840.03" y1="408.32" x2="875.71" y2="372.64"/>
+
+        <path fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M845.09,413.38c.15-.15.3-.31.45-.46.74-.74,1.48-1.47,2.24-2.18,2.54-2.43,5.15-4.72,7.8-6.86,9.97-8.08,20.59-14.16,31.24-18.2"/>
+
+        <path fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M862.68,361.52c-4.06,10.71-10.11,21.26-18.2,31.24-2.14,2.66-4.43,5.26-6.86,7.8-.71.76-1.44,1.5-2.18,2.24-.15.15-.31.3-.46.45"/>
+
+        <path fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M830.32,398.86c-28.92,28.66-30.02,40.12-68.92,48.14"/>
+
+        <path fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M761.4,474.16c45.07-6.24,55.92-19.4,88.1-56.13"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="830.32" y1="398.86" x2="849.5" y2="418.04"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="875.45" y1="372.9" x2="865.07" y2="383.28"/>
+
+        <path fill="none" stroke="#f2b81c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M886.57,385.94c-4.33,1.64-8.64,3.61-12.91,5.93"/>
+
+        <path fill="none" stroke="#f2b81c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M862.41,361.79c-1.64,4.34-3.62,8.65-5.92,12.91"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-breaker" viewBox="987.00 323.69 200.67 186.33">
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x="1062.23" y="381.75" width="50.22" height="70.44" rx="4"/>
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x="1067.89" y="354.19" width="38.89" height="27.56" rx="4"/>
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x="1068.34" y="452.19" width="38" height="27.33" rx="4"/>
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x="1077.73" y="406.64" width="19.22" height="19.22" rx="3.92"/>
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x="1077.73" y="425.86" width="19.22" height="12.78" rx="4.61"/>
+
+        <circle fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="1087.34" cy="368.85" r="2.21"/>
+
+        <circle fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="1087.34" cy="465.86" r="2.21"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-panel" viewBox="1237.17 325.86 200.67 186.33">
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="1287.49" y="356.37" width="100.04" height="114.9" rx="3.38"/>
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="1300.82" y="367.69" width="73.36" height="92.27" rx="1.15"/>
+
+        <rect fill="none" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="1315.2" y="382.29" width="44.61" height="21.9" rx=".55"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1341.29" y1="421.52" x2="1330.28" y2="434.68"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1344.73" y1="432.72" x2="1333.72" y2="445.89"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1330.28" y1="434.68" x2="1344.73" y2="432.72"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1318.77" y1="471.55" x2="1318.77" y2="481.68"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1331.26" y1="471.55" x2="1331.26" y2="481.68"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1343.75" y1="471.55" x2="1343.75" y2="481.68"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1356.23" y1="471.55" x2="1356.23" y2="481.68"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-bulb" viewBox="1486.90 322.18 200.67 186.33">
+
+        <path fill="none" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1587.65,386.46c.61,0,1.24.02,1.86.06,14.75.94,26.67,13.03,27.42,27.79.19,3.88-.36,7.6-1.53,11.04-1.59,4.63-4.06,8.01-6.02,10.18-.8.88-1.69,1.64-2.63,2.35-.89.67-1.97,1.69-2.86,3.16-1.75,2.86-1.72,5.68-1.66,6.76v2.66c0,2-1.62,3.63-3.62,3.63h-11.76s-10.96,0-10.96,0c-2,0-3.62-1.63-3.62-3.63v-2.66c.06-1.08.09-3.9-1.66-6.76-.89-1.47-1.97-2.49-2.86-3.16-.94-.71-1.83-1.47-2.63-2.35-1.96-2.17-4.43-5.55-6.02-10.18-1.17-3.44-1.72-7.16-1.53-11.04.75-14.76,12.67-26.85,27.42-27.79.62-.04,1.25-.06,1.86-.06h.8Z"/>
+
+        <path fill="none" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1574.76,459.9v3.18c0,2.39,1.41,4.32,3.15,4.32h18.67c1.74,0,3.15-1.93,3.15-4.32v-3.18"/>
+
+        <path fill="none" stroke="#f2b81c" stroke-width="5.89" stroke-linejoin="round" stroke-miterlimit="10" d="M1593.03,467.4c.01.07.01.15.01.24,0,3.7-2.59,6.7-5.79,6.7s-5.79-3-5.79-6.7c0-.08,0-.17.01-.24"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5.23" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1545.71" y1="372.31" x2="1556.67" y2="383.27"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5.23" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1527.77" y1="415.12" x2="1543.27" y2="415.12"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5.23" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1587.25" y1="356.37" x2="1587.25" y2="371.87"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5.23" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1628.77" y1="372.31" x2="1617.81" y2="383.27"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5.23" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1646.71" y1="415.12" x2="1631.21" y2="415.12"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-master" viewBox="235.12 566.66 200.67 186.33">
+    <ellipse fill="none" stroke="#2a2d4a" stroke-width="5.1" stroke-miterlimit="10" cx="323.97" cy="627.81" rx="28" ry="26.5"/>
+    <path fill="none" stroke="#2a2d4a" stroke-width="5.14" stroke-miterlimit="10" d="M280.47,718.36h0c-3.92,0-6.83-3.64-5.95-7.47l3.99-17.47.02-.08c2.43-12.28,9.73-22.81,19.8-29.49"/>
+    <line fill="none" stroke="#2a2d4a" stroke-width="5.14" stroke-miterlimit="10" x1="278.53" y1="693.34" x2="278.51" y2="693.42"/>
+    <path fill="none" stroke="#2a2d4a" stroke-width="5.14" stroke-miterlimit="10" d="M323.89,685.15h25.56s0-21.3,0-21.3h0c-7.32-4.87-16.11-7.71-25.56-7.71-9.45,0-18.24,2.84-25.56,7.7h0v21.31s25.56,0,25.56,0Z"/>
+    <path fill="none" stroke="#2a2d4a" stroke-width="5.14" stroke-miterlimit="10" d="M369.27,693.42l-.02-.08c-2.43-12.28-9.73-22.81-19.8-29.49"/>
+    <line fill="none" stroke="#2a2d4a" stroke-width="5.14" stroke-miterlimit="10" x1="369.89" y1="696.14" x2="369.27" y2="693.42"/>
+    <path fill="none" stroke="#2a2d4a" stroke-width="5.14" stroke-miterlimit="10" d="M372.02,705.45l1.24,5.44c.88,3.83-2.03,7.47-5.95,7.47"/>
+    <polyline fill="none" stroke="#2a2d4a" stroke-width="5.14" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="356.07 709.96 349.45 685.15 323.89 685.15 298.33 685.15 289.47 718.36 323.89 718.36 358.31 718.36 358.3 718.33"/>
+    <line fill="none" stroke="#2a2d4a" stroke-width="5.14" stroke-miterlimit="10" x1="289.47" y1="718.36" x2="280.47" y2="718.36"/>
+    <line fill="none" stroke="#2a2d4a" stroke-width="5.14" stroke-miterlimit="10" x1="367.31" y1="718.36" x2="358.31" y2="718.36"/>
+    <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-miterlimit="10" x1="306.59" y1="696.78" x2="340.47" y2="696.78"/>
+    <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-miterlimit="10" x1="296.63" y1="622.08" x2="365" y2="622.08"/>
+    <path fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M382.12,697.37s-.01,0-.02,0c-.95-.26-1.97-.03-2.67.66l-19.75,19.75c-.74.74-1.93.74-2.66,0l-2.99-2.99c-.77-.77-.77-2.02,0-2.8l19.06-19.06c.95-.95,1.29-2.33.94-3.62-.52-1.89-.55-3.94-.01-5.98,1.12-4.17,4.39-7.18,8.3-8.15.42-.1.8.27.69.69l-2.16,8.06c-.26.98,1.56,2.33,4.07,3,2.51.67,4.76.42,5.03-.57l2.16-8.06c.11-.42.63-.55.94-.25,2.89,2.8,4.22,7.04,3.11,11.21-1.64,6.11-7.92,9.74-14.03,8.1Z"/>
+  </symbol>
+
+    
+
+    <symbol id="ic-search" viewBox="477.58 567.57 200.67 186.33">
+
+        <circle fill="none" stroke="#2a2d4a" stroke-width="5.81" stroke-linejoin="round" stroke-miterlimit="10" cx="565.75" cy="648.58" r="36.97"/>
+
+        <path fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M565.75,623.37c13.92,0,25.21,11.29,25.21,25.21"/>
+
+        <rect fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x="596.97" y="689.42" width="32.26" height="13" rx="4.94" transform="translate(671.66 -229.69) rotate(45)"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="601.69" y1="684.52" x2="591.89" y2="674.72"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-price" viewBox="725.37 568.69 200.67 186.33">
+
+        <circle fill="none" stroke="#2a2d4a" stroke-width="5.33" stroke-linejoin="round" stroke-miterlimit="10" cx="825.71" cy="661.86" r="54.36"/>
+
+        <circle fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" cx="825.71" cy="661.86" r="42.54"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" x1="818.85" y1="684.62" x2="818.85" y2="663.13"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="809.76" y1="673.51" x2="834.83" y2="673.51"/>
+
+        <path fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M843.07,652.47c-.02,2.93-1.22,5.59-3.15,7.51-1.94,1.95-4.63,3.15-7.6,3.15h-13.39s-.09-.04-.09-.09v-21.31s.04-.09.09-.09h12.99c5.96,0,11.19,4.87,11.15,10.83Z"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="818.63" y1="663.13" x2="809.76" y2="663.13"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-chat" viewBox="987.15 570.61 200.67 186.33">
+
+        <path fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M1074.97,693.2h42.1c12.84,0,23.25-10.41,23.25-23.25v-29.17c0-12.84-10.41-23.25-23.25-23.25h-59.16c-12.84,0-23.25,10.41-23.25,23.25v29.17c0,12.16,9.34,22.14,21.23,23.16"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1055.89" y1="693.11" x2="1055.89" y2="710.03"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1074.97" y1="693.2" x2="1055.89" y2="710.03"/>
+
+        <circle fill="#2a2d4a" stroke="#2a2d4a" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" cx="1064.38" cy="656.54" r="5.31"/>
+
+        <circle fill="#2a2d4a" stroke="#2a2d4a" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" cx="1087.49" cy="656.54" r="5.31"/>
+
+        <circle fill="#2a2d4a" stroke="#2a2d4a" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" cx="1110.6" cy="656.54" r="5.31"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-wrench" viewBox="1238.05 567.63 200.67 186.33">
+
+        <path fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M1357.82,662.03c-.33-.09-.66-.18-.99-.28-1.98-.6-4.12-.04-5.58,1.42l-54.74,54.74c-1.39,1.39-3.65,1.39-5.04,0l-10.16-10.16c-1.49-1.49-1.49-3.91,0-5.4l52.88-52.88c2.2-2.2,2.98-5.43,2.09-8.41-1.57-5.27-1.75-11.03-.22-16.73,2.9-10.79,11.18-18.69,21.16-21.59,1.61-.47,3.12,1.02,2.68,2.64l-5.5,20.54c-.71,2.64,4.19,6.26,10.94,8.07,6.74,1.8,12.79,1.12,13.5-1.52l5.35-19.96c.5-1.88,2.9-2.51,4.21-1.08,6.9,7.5,9.94,18.27,7.12,28.85-4.41,16.43-21.28,26.16-37.7,21.77Z"/>
+
+        <circle fill="#2a2d4a" stroke="#2a2d4a" stroke-width="3.54" stroke-linejoin="round" stroke-miterlimit="10" cx="1294.91" cy="704.47" r="2.68"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-shield" viewBox="1486.90 565.80 200.67 186.33">
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1568.19" y1="665.74" x2="1581.3" y2="679.07"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1606.85" y1="650.63" x2="1581.3" y2="679.07"/>
+
+        <path fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1625.93,625.51c2.83,1.08,4.7,3.79,4.7,6.82v32.52c0,.7-.02,1.4-.05,2.09-.99,23.64-18.07,43.39-41.21,49.81-1.21.33-2.49.33-3.7,0-23.15-6.42-40.22-26.16-41.21-49.81-.03-.69-.05-1.39-.05-2.09v-32.52c0-3.03,1.87-5.74,4.7-6.82l35.81-13.66c1.68-.64,3.53-.64,5.2,0l35.81,13.66Z"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-request" viewBox="236.33 802.36 200.67 186.33">
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="306.19" y1="871.3" x2="345.19" y2="871.3"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="336.31" y1="887.97" x2="306.19" y2="887.97"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="325.75" y1="904.64" x2="306.19" y2="904.64"/>
+
+        <path fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M363.3,928.14v7.17c0,5.5-4.46,9.97-9.97,9.97h-57c-5.51,0-9.97-4.47-9.97-9.97v-79.56c0-5.51,4.46-9.97,9.97-9.97h57c5.51,0,9.97,4.46,9.97,9.97v19.64"/>
+
+        <path fill="none" stroke="#2a2d4a" stroke-width="5.46" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M378.78,896.62l-30.67,30.67c-.09.09-.19.15-.31.18l-12.93,3.64c-.53.15-1.03-.34-.88-.88l3.64-12.93c.03-.12.1-.22.18-.31l30.67-30.67c.28-.28.73-.28,1.01,0l9.3,9.3c.28.28.28.73,0,1.01Z"/>
+
+        <path fill="none" stroke="#2a2d4a" stroke-width="5.46" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M385.82,889.58l-6.53,6.53-10.3-10.3,6.53-6.53c1.53-1.53,4.02-1.53,5.55,0l4.76,4.76c1.53,1.53,1.53,4.02,0,5.55Z"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-call" viewBox="479.27 802.81 200.67 186.33">
+
+        <path fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M569.69,902.25c-.06-.06-.27-.28-.59-.62-.04-.04-.08-.08-.13-.14-1.85-1.95-6.75-7.25-10.29-11.59-1.92-2.35-1.35-5.86,1.22-7.48l1.48-.93c5.14-3.25,6.67-10.05,3.43-15.18l-7.91-12.53c-3.25-5.14-9.6-6.23-14.74-2.98l-3.58,2.27c-4.55,2.88-6.85,8.28-5.71,13.54,2.48,11.5,8.38,29.08,22.95,45.36,1.25,1.39,2.52,2.73,3.8,4.01,1.28,1.28,2.62,2.55,4.01,3.8,16.28,14.57,33.86,20.47,45.36,22.95,5.26,1.13,10.66-1.16,13.54-5.71l2.27-3.58c3.25-5.14,2.16-11.49-2.98-14.74l-12.53-7.91c-5.13-3.24-11.94-1.71-15.18,3.43l-.93,1.48c-1.62,2.57-5.13,3.13-7.48,1.22-4.34-3.54-9.64-8.44-11.59-10.29-.06-.04-.1-.08-.14-.13-.34-.33-.56-.53-.62-.59l-3.63-3.63Z"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-delivery" viewBox="724.96 805.95 200.67 186.33">
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="779.29" y1="873.99" x2="779.29" y2="919.49"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="825.29" y1="946.99" x2="825.29" y2="896.74"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="779.29" y1="873.99" x2="825.29" y2="896.74"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="825.29" y1="851.24" x2="871.29" y2="873.99"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="802.71" y1="862.61" x2="848.29" y2="885.16"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="779.29" y1="920.65" x2="825.29" y2="946.99"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="871.29" y1="873.99" x2="871.29" y2="919.49"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="825.29" y1="946.99" x2="825.29" y2="896.74"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="871.29" y1="873.99" x2="825.29" y2="896.74"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="825.29" y1="851.24" x2="779.29" y2="873.99"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="871.29" y1="920.65" x2="825.29" y2="946.99"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-fast" viewBox="985.10 804.87 200.67 186.33">
+
+        <path fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M1061.13,929.65c8.79,10.05,21.71,16.39,36.11,16.39,26.51,0,48-21.49,48-48s-21.49-48-48-48c-19.37,0-36.07,11.48-43.65,28.01"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1032.46" y1="891.98" x2="1064.29" y2="891.98"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1025.62" y1="906.31" x2="1057.69" y2="906.31"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1036.29" y1="919.48" x2="1049.96" y2="919.48"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1097.23" y1="866.2" x2="1097.23" y2="898.03"/>
+
+        <line fill="none" stroke="#2a2d4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1097.23" y1="898.03" x2="1111.48" y2="912.28"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-leak" viewBox="1237.07 805.21 200.67 186.33">
+
+        <path fill="none" stroke="#7b61e8" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1373.11,914.36c0,19.7-15.99,35.69-35.69,35.69s-35.72-15.99-35.72-35.69c0-6.28,1.62-12.18,4.45-17.26l25.24-46.81c2.58-4.77,9.46-4.77,12.04,0l25.24,46.81c2.82,5.08,4.45,10.98,4.45,17.26Z"/>
+
+        <circle fill="none" stroke="#7b61e8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="1337.41" cy="926.29" r="1.22"/>
+
+        <path fill="#7b61e8" stroke="#7b61e8" stroke-width="4.85" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M1340.13,887.32l-2.42,27.5c-.07.76-.53.76-.6,0l-2.43-27.5c-.04-.44.11-.85.3-.85h4.85c.19,0,.34.41.3.85Z"/>
+
+      </symbol>
+
+    
+
+    <symbol id="ic-short" viewBox="1485.84 803.37 200.67 186.33">
+
+        <path fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M1588.94,946.62h-43.07c-6.53,0-11.83-5.3-11.83-11.84v-76.5c0-6.53,5.3-11.83,11.83-11.83h79.34c6.53,0,11.83,5.3,11.83,11.83v3.82"/>
+
+        <path fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M1621.76,888.95c-3.5-16.8-18.39-29.42-36.22-29.42-20.44,0-37,16.57-37,37s16.56,37,37,37c4.19,0,8.22-.7,11.98-1.99.71-.25,1.42-.51,2.11-.8"/>
+
+        <circle fill="#f2b81c" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" cx="1568.04" cy="896.32" r="4.54"/>
+
+        <circle fill="#f2b81c" stroke="#f2b81c" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" cx="1603.04" cy="896.32" r="4.54"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1585.54" y1="933.53" x2="1585.54" y2="924.28"/>
+
+        <line fill="none" stroke="#f2b81c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1585.54" y1="868.78" x2="1585.54" y2="859.53"/>
+
+        <path fill="#f2b81c" stroke="#f2b81c" stroke-width="4.54" stroke-linejoin="round" stroke-miterlimit="10" d="M1627.45,907.96l8.02-19.3c.64-1.55-.36-2.66-1.3-1.44l-24.08,31.03c-.74.95-.66,2.46.14,2.5l9.75.47c.62.03.85,1,.45,1.95l-8.02,19.3c-.64,1.55.36,2.66,1.3,1.44l24.08-31.03c.74-.95.66-2.46-.14-2.5l-9.75-.47c-.62-.03-.85-1-.45-1.95Z"/>
+
+      </symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo">Поток<b>+</b></a>
+    <nav class="nav-links" id="menu">
+      <a href="#services">Услуги</a><a href="#categories">Категории</a><a href="#how">Как это работает</a><a href="#contacts">Контакты</a>
+    </nav>
+    <a href="#request" class="btn btn-p btn-sm nav-cta" data-topic="Не знаю">Подобрать решение</a>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="rv">
+      <div class="eyebrow">САНТЕХНИКА И ЭЛЕКТРИКА</div>
+      <h1>Всё для воды и электричества — в одном месте</h1>
+      <p class="lead">Подберём материалы, оборудование и решение под вашу задачу — от смесителя и фильтра до электрики и монтажа.</p>
+      <div class="actions">
+        <a href="#request" class="btn btn-p" data-topic="Не знаю">Подобрать решение</a>
+        <a href="#categories" class="btn btn-o">Смотреть товары</a>
+      </div>
+      <div class="phone">Или позвоните: <a href="tel:+79109140594">+7 910 914-05-94</a></div>
+    </div>
+    <div class="rv">
+      <svg id="hero-anim" class="flow" viewBox="0 0 1572 972.22" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Кран, из которого вытекает вода, переходящая в электрический провод с вилкой">
+        <defs>
+          <filter id="heroGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <linearGradient id="heroDiagonalCord" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#7b61e8"/><stop offset="100%" stop-color="#f2b81c"/>
+          </linearGradient>
+          <linearGradient id="heroPulseForward" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+            <stop offset="40%" stop-color="#ffffff" stop-opacity=".95"/>
+            <stop offset="70%" stop-color="#ffe680" stop-opacity=".8"/>
+            <stop offset="100%" stop-color="#7b61e8" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="heroPulseBackward" x1="100%" y1="0%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+            <stop offset="40%" stop-color="#ffffff" stop-opacity=".95"/>
+            <stop offset="70%" stop-color="#ffe680" stop-opacity=".8"/>
+            <stop offset="100%" stop-color="#f2b81c" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <path id="hero-drop-1" class="hd" fill="#7b61e8" stroke="#7b61e8" stroke-width="9.7" stroke-miterlimit="10" d="M395.15,750.67c0,10.82,8.78,19.6,19.6,19.6s19.62-8.78,19.62-19.6c0-3.45-.89-6.69-2.44-9.48l-13.86-25.71c-1.42-2.62-5.2-2.62-6.61,0l-13.86,25.71c-1.55,2.79-2.44,6.03-2.44,9.48Z"/>
+        <path id="hero-drop-2" class="hd" fill="#7b61e8" stroke="#7b61e8" stroke-width="9.7" stroke-miterlimit="10" d="M395.15,750.67c0,10.82,8.78,19.6,19.6,19.6s19.62-8.78,19.62-19.6c0-3.45-.89-6.69-2.44-9.48l-13.86-25.71c-1.42-2.62-5.2-2.62-6.61,0l-13.86,25.71c-1.55,2.79-2.44,6.03-2.44,9.48Z"/>
+        <path id="hero-drop-3" class="hd" fill="#7b61e8" stroke="#7b61e8" stroke-width="9.7" stroke-miterlimit="10" d="M395.15,750.67c0,10.82,8.78,19.6,19.6,19.6s19.62-8.78,19.62-19.6c0-3.45-.89-6.69-2.44-9.48l-13.86-25.71c-1.42-2.62-5.2-2.62-6.61,0l-13.86,25.71c-1.55,2.79-2.44,6.03-2.44,9.48Z"/>
+
+        <path id="hero-main-cord" fill="none" stroke="url(#heroDiagonalCord)" stroke-width="24" stroke-miterlimit="10" d="M980,172.61c-98.94,.88-164.04-32.28-204.16-6.56-56.98,36.53-77.01,117.93-52,145.33,31.29,34.28,114.45-36.28,180,5.33,40.93,25.98,62.73,87.91,44,125.33-25.57,51.07-129.4,61.97-189.33,22.67-87.17-57.16-53.06-201.85-110.67-216-36.44-8.95-91.94,38.68-98.67,88-14.42,105.79,197.63,204.61,208,209.33,154.52,70.34,270.7,37.18,280,77.33,8.4,36.26-75.24,111.4-168,102.67-76.42-7.2-91.97-119.92-144-117.33-31.79,1.58-30.04,81.44-80.56,96.22-8.73,2.55-20.66,3.25-25.67,3.33L540,715.87"/>
+        <path id="hero-pulse-cord" fill="none" stroke-width="32" stroke-miterlimit="10" stroke-linecap="round" opacity="0" filter="url(#heroGlow)" stroke="url(#heroPulseForward)" d="M980,172.61c-98.94,.88-164.04-32.28-204.16-6.56-56.98,36.53-77.01,117.93-52,145.33,31.29,34.28,114.45-36.28,180,5.33,40.93,25.98,62.73,87.91,44,125.33-25.57,51.07-129.4,61.97-189.33,22.67-87.17-57.16-53.06-201.85-110.67-216-36.44-8.95-91.94,38.68-98.67,88-14.42,105.79,197.63,204.61,208,209.33,154.52,70.34,270.7,37.18,280,77.33,8.4,36.26-75.24,111.4-168,102.67-76.42-7.2-91.97-119.92-144-117.33-31.79,1.58-30.04,81.44-80.56,96.22-8.73,2.55-20.66,3.25-25.67,3.33L540,715.87"/>
+
+        <g id="hero-faucet-closed">
+          <path fill="#7b61e8" stroke="#7b61e8" stroke-width="9.7" stroke-miterlimit="10" d="M601.04,715.87v45.24c0,4.55-3.69,8.24-8.24,8.24h-58.49c-4.55,0-8.24-3.69-8.24-8.24v-45.24c.09-1.2,1.61-25.26-15.14-35.82-4.76-3-9.69-4.09-13.63-4.42h-56.88c-3.09,0-4.91.89-6.03,1.99-3.15,3.1-1.09,8.17-4.22,10.88-1.51,1.31-3.61,1.52-5.58,1.35h-22.3c-.96-.13-2.24-.47-3.47-1.32-3.96-2.74-3.67-8.24-3.64-8.7v-27.15c-.07-1.12-.36-8.11,5.04-13.49,4.07-4.06,8.95-4.77,10.48-4.93h108.26c.17.03,4.09.54,6.1-2.17.72-.97.94-2.01,1.01-2.68v-28.76c-.02-.44-.14-2.21-1.56-3.72-1.42-1.5-3.17-1.73-3.61-1.78h-74.17c-6.96,0-12.6-5.64-12.6-12.6v-1.29c0-6.96,5.64-12.6,12.6-12.6h112.63c.79,0,4.98.05,8.31,3.39,2.89,2.9,3.26,6.39,3.33,7.33v51.22c-.02.34-.14,2.96,1.93,4.79,1.52,1.35,3.28,1.45,3.78,1.45h6.14c1.81.06,6.9.47,11.46,4.26,7.15,5.94,6.81,15.03,6.75,16.1v70.13"/>
+        </g>
+
+        <g id="hero-faucet-open">
+          <g transform="translate(300.92 495.6)" fill="#7b61e8" stroke="#7b61e8" stroke-width="9.7" stroke-miterlimit="10">
+            <path d="M190.81,73.06l34.33,14.22v46.54c-.07.67-.29,1.71-1.01,2.68-2.01,2.71-5.93,2.19-6.1,2.16h-108.26c-1.53.16-6.41.87-10.48,4.93-5.39,5.38-5.1,12.37-5.04,13.49v27.15c-.03.46-.32,5.96,3.64,8.7,1.23.85,2.51,1.19,3.47,1.32h22.3c1.97.17,4.07-.05,5.58-1.35,3.13-2.71,1.08-7.78,4.23-10.88,1.12-1.1,2.94-1.99,6.03-1.99h56.88c3.93.33,8.86,1.42,13.62,4.42,16.75,10.56,15.23,34.62,15.14,35.81v45.25c0,4.55,3.69,8.24,8.24,8.24h58.49c4.55,0,8.24-3.69,8.24-8.24v-103.9c.06-1.07.41-10.17-6.74-16.11-4.56-3.78-9.65-4.19-11.46-4.25h-6.14c-.5,0-2.27-.1-3.78-1.46-2.07-1.83-1.95-4.45-1.93-4.79v-51.22c-.07-.94-.44-4.43-3.33-7.33-2.08-2.08-4.49-2.89-6.19-3.2h-.01"/>
+            <path d="M270.06,87.34c-.13,1.13-.43,2.25-.88,3.35l-.34.83c-2.71,6.53-10.2,9.63-16.73,6.93l-26.97-11.17-34.33-14.22-41.29-17.1c-6.53-2.71-9.64-10.2-6.93-16.73l.34-.83c2.71-6.53,10.2-9.63,16.73-6.93l100.87,41.78h.01l1.71.71c4.43,1.84,7.28,5.87,7.81,10.31.13,1.01.13,2.04,0,3.07Z"/>
+            <path fill="none" stroke="#7b61e8" stroke-width="9.67" stroke-miterlimit="10" d="M204.34,78.67s7.83,3.24,13.88,5.75c4.19,1.74,6.92,5.82,6.92,10.36v26.46"/>
+          </g>
+        </g>
+
+        <g id="hero-plug">
+          <path fill="#f2b81c" stroke="#f2b81c" stroke-width="7.45" stroke-miterlimit="10" d="M1024.83,214.23c-1.66.25-3.37.38-5.1.38h-26.39c-20.87,0-37.79-18.8-37.79-42,0-11.6,4.23-22.1,11.07-29.7,6.84-7.6,16.29-12.3,26.72-12.3h26.39c1.73,0,3.44.13,5.1.38"/>
+          <line stroke="#f2b81c" stroke-width="16.43" stroke-linecap="round" stroke-miterlimit="10" x1="1024.83" y1="122.61" x2="1024.83" y2="222.61"/>
+          <line stroke="#f2b81c" stroke-width="15" stroke-linecap="round" stroke-miterlimit="10" x1="1020.11" y1="146.61" x2="1074.11" y2="146.61"/>
+          <line stroke="#f2b81c" stroke-width="15" stroke-linecap="round" stroke-miterlimit="10" x1="1020.11" y1="198.61" x2="1074.11" y2="198.61"/>
+        </g>
+
+        <path id="hero-bolt-1" class="hb" fill="#f2b81c" stroke="#f2b81c" stroke-width="6.06" stroke-miterlimit="10" d="M1155.87,106.8l19.42-20.07c1.56-1.61.85-3.48-.91-2.43l-45.13,26.79c-1.39.82-2.02,2.74-1.05,3.17l11.89,5.36c.76.34.56,1.66-.39,2.65l-19.42,20.07c-1.56,1.61-.85,3.48.91,2.43l45.13-26.79c1.39-.82,2.02-2.74,1.05-3.17l-11.89-5.36c-.76-.34-.56-1.66.39-2.65Z"/>
+        <path id="hero-bolt-2" class="hb" fill="#f2b81c" stroke="#f2b81c" stroke-width="6.06" stroke-miterlimit="10" d="M1139.69,221.41l-19.42-20.07c-1.56-1.61-.85-3.48.91-2.43l45.13,26.79c1.39.82,2.02,2.74,1.05,3.17l-11.89,5.36c-.76.34-.56,1.66.39,2.65l19.42,20.07c1.56,1.61.85,3.48-.91,2.43l-45.13-26.79c-1.39-.82-2.02-2.74-1.05-3.17l11.89-5.36c.76-.34.56-1.66-.39-2.65Z"/>
+        <path id="hero-bolt-3" class="hb" fill="#f2b81c" stroke="#f2b81c" stroke-width="6.06" stroke-miterlimit="10" d="M1188.96,172.86l-27.93-.46c-2.24-.04-3.07-1.86-1.07-2.37l50.85-12.97c1.56-.4,3.36.5,2.99,1.5l-4.61,12.2c-.29.78.78,1.57,2.15,1.59l27.93.46c2.24.04,3.07,1.86,1.07,2.37l-50.85,12.97c-1.56.4-3.36-.5-2.99-1.5l4.61-12.2c.29-.78-.78-1.57-2.15-1.59Z"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="home" class="zone-w">
+  <div class="wrap">
+    <div class="head rv"><h2>Всё для дома — в одном месте</h2><p>Товары, материалы и работы для воды и электричества.</p></div>
+    <div class="trio">
+      <div class="tri v rv"><div class="top"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-mixer"/></svg><span class="n">01</span></div><h3>САНТЕХНИКА</h3><p>Смесители · трубы · фильтры · водонагреватели</p></div>
+      <div class="tri y rv"><div class="top"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-socket"/></svg><span class="n">02</span></div><h3>ЭЛЕКТРИКА</h3><p>Розетки · кабель · автоматы · освещение</p></div>
+      <div class="tri m rv"><div class="top"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-wrench"/></svg><span class="n">03</span></div><h3>МОНТАЖ</h3><p>Установка · подключение · ремонт</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="head rv"><h2>Что мы делаем</h2><p>Основные направления работ. Подробности и стоимость обсудим под вашу задачу.</p></div>
+    <div class="two">
+      <div class="card v rv">
+        <svg class="pic big" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-mixer"/></svg>
+        <h3>Сантехника</h3><p class="d">От протечки до ремонта санузла под ключ.</p>
+        <ul class="list"><li>Установка сантехники</li><li>Водопровод и канализация</li><li>Водонагреватели и фильтры</li><li>Протечки и засоры</li><li>Подключение техники</li><li>Ремонт санузла</li></ul>
+        <a href="#request" class="btn btn-p" data-topic="Сантехника">Обсудить задачу</a>
+      </div>
+      <div class="card y rv">
+        <svg class="pic big" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-socket"/></svg>
+        <h3>Электрика</h3><p class="d">От розетки до электромонтажа под ключ.</p>
+        <ul class="list"><li>Замена проводки</li><li>Розетки и выключатели</li><li>Щитки и автоматы</li><li>Освещение</li><li>Подключение техники</li><li>Поиск неисправностей</li></ul>
+        <a href="#request" class="btn btn-o" data-topic="Электрика">Обсудить задачу</a>
+      </div>
+    </div>
+    <p class="note rv">Не нашли нужную услугу? Опишите задачу менеджеру — скажем, беремся ли за неё, и назовём примерную стоимость.</p>
+  </div>
+</section>
+
+<section id="categories" class="zone-w">
+  <div class="wrap">
+    <div class="head rv"><h2>Популярные категории</h2><p>Подбираем и поставляем товары под задачу. Наличие и цены уточняйте у менеджера — онлайн-каталог в разработке.</p></div>
+    <div class="v rv"><div class="grp">САНТЕХНИКА</div></div>
+    <div class="cats v">
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-mixer"/></svg></div><span>Смесители</span></a>
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-sink"/></svg></div><span>Раковины</span></a>
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-wc"/></svg></div><span>Унитазы</span></a>
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-filter"/></svg></div><span>Фильтры</span></a>
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-boiler"/></svg></div><span>Водонагреватели</span></a>
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-pipe"/></svg></div><span>Трубы и фитинги</span></a>
+    </div>
+    <div class="y rv"><div class="grp">ЭЛЕКТРИКА</div></div>
+    <div class="cats y">
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-socket"/></svg></div><span>Розетки</span></a>
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-switch"/></svg></div><span>Выключатели</span></a>
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-cable"/></svg></div><span>Кабель</span></a>
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-breaker"/></svg></div><span>Автоматы</span></a>
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-panel"/></svg></div><span>Электрощитки</span></a>
+      <a href="#request" class="cat rv" data-topic="Товары и материалы"><div class="ico"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-bulb"/></svg></div><span>Освещение</span></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta rv">
+      <div>
+        <h2>Не знаете, что именно нужно?</h2>
+        <p>Опишите задачу — мы сами подберём необходимые материалы, оборудование и комплектующие.</p>
+        <a href="#request" class="btn btn-p" data-topic="Не знаю">Подобрать решение</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="zone-t">
+  <div class="wrap">
+    <div class="head rv"><h2>Как это работает</h2><p>Четыре шага от заявки до готового результата.</p></div>
+    <div class="steps">
+      <div class="step rv" style="--c:var(--violet)"><div class="num">01</div><h3>Заявка</h3><p>Оставляете заявку и коротко описываете задачу.</p></div>
+      <div class="step rv" style="--c:var(--violet)"><div class="num">02</div><h3>Подбор</h3><p>Менеджер уточняет детали и подбирает решение и материалы.</p></div>
+      <div class="step rv" style="--c:var(--yellow)"><div class="num">03</div><h3>Покупка / монтаж</h3><p>Согласуем стоимость, поставляем товары, мастер выполняет работу.</p></div>
+      <div class="step rv" style="--c:var(--yellow)"><div class="num">04</div><h3>Готово</h3><p>Принимаете результат — всё работает.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="head rv"><h2>Почему Поток+</h2></div>
+    <div class="why">
+      <div class="w rv" style="--c:var(--violet)"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-master"/></svg><h3>Один подрядчик</h3><p>Сантехника и электрика в одном месте.</p></div>
+      <div class="w rv" style="--c:var(--yellow)"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-search"/></svg><h3>Подбор материалов</h3><p>Поможем выбрать подходящие товары и комплектующие.</p></div>
+      <div class="w rv" style="--c:var(--violet)"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-price"/></svg><h3>Понятная стоимость</h3><p>Стоимость согласовывается заранее.</p></div>
+      <div class="w rv" style="--c:var(--yellow)"><svg class="pic" viewBox="0 0 200.67 186.33" role="img"><use href="#ic-chat"/></svg><h3>Быстрая связь</h3><p>Менеджер отвечает после заявки.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="request" class="zone-w">
+  <div class="wrap">
+    <div class="form-box rv">
+      <div>
+        <h2>Подберём решение под вашу задачу</h2>
+        <p class="sub">Оставьте контакты — менеджер уточнит детали и предложит варианты.</p>
+        <div class="chips" id="chips">
+          <button type="button" class="chip active" data-value="Не знаю">Не знаю, что нужно</button>
+          <button type="button" class="chip" data-value="Сантехника">Сантехника</button>
+          <button type="button" class="chip" data-value="Электрика">Электрика</button>
+          <button type="button" class="chip" data-value="Оба направления">Оба направления</button>
+          <button type="button" class="chip" data-value="Товары и материалы">Товары / материалы</button>
+        </div>
+      </div>
+      <form id="lead-form">
+        <div class="field"><label for="name">Имя</label><input id="name" name="name" type="text" placeholder="Как к вам обращаться" required></div>
+        <div class="field"><label for="phone">Телефон</label>
+          <div class="phone-input"><span class="pre">+7</span><input id="phone" name="phone_local" type="tel" inputmode="numeric" placeholder="900 000-00-00" required></div>
+          <input type="hidden" name="phone" id="phone-full"></div>
+        <div class="field"><label for="comment">Комментарий (необязательно)</label><textarea id="comment" name="comment" rows="3" placeholder="Кратко опишите задачу"></textarea></div>
+        <button type="submit" class="btn btn-p">Подобрать решение</button>
+        <p class="fine">Нажимая кнопку, вы соглашаетесь на <button type="button" class="link-btn" id="p-open">обработку персональных данных</button>.</p>
+        <div class="ok" id="ok">Заявка принята. Менеджер свяжется с вами в ближайшее время.</div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer id="contacts">
+  <div class="wrap">
+    <div class="f-grid">
+      <div><a href="#top" class="logo">Поток<b>+</b></a><p class="f-tag">Поток+ — сантехника и электрика в одном месте.</p></div>
+      <div class="f-c">
+        <span><strong>Телефон:</strong> +7 910 914-05-94</span>
+        <span><strong>Почта:</strong> potokplus.el.pl@mail.ru</span>
+        <span><strong>Работаем:</strong> ежедневно 8:00–21:00</span>
+      </div>
+    </div>
+    <div class="copy">© 2026 Поток+</div>
+  </div>
+</footer>
+
+<div class="ov" id="pm" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pt">
+    <div class="mh"><h3 id="pt">Согласие на обработку персональных данных</h3><button type="button" class="mx" id="p-close" aria-label="Закрыть">×</button></div>
+    <p>Отправляя форму на сайте «Поток+», вы соглашаетесь на обработку данных: имя, номер телефона и текст комментария.</p>
+    <p>Данные нужны только для того, чтобы менеджер связался с вами, уточнил задачу и предложил подходящие услуги или товары. Третьим лицам они не передаются — кроме случаев, необходимых для выполнения заявки, например мастеру, который приедет на объект.</p>
+    <p>Данные хранятся до выполнения заявки или до вашего обращения об удалении: <strong>potokplus.el.pl@mail.ru</strong>, <strong>+7 910 914-05-94</strong>.</p>
+    <button type="button" class="btn btn-p" id="p-ok">Понятно</button>
+  </div>
+</div>
+
+<script>
+try{
+  var chips=document.querySelectorAll('#chips .chip');
+  function pick(t){chips.forEach(function(c){c.classList.toggle('active',c.dataset.value===t)})}
+  chips.forEach(function(c){c.addEventListener('click',function(){pick(c.dataset.value)})});
+  document.querySelectorAll('[data-topic]').forEach(function(b){b.addEventListener('click',function(){pick(b.dataset.topic)})});
+}catch(e){}
+try{
+  var menu=document.getElementById('menu'),bg=document.getElementById('burger');
+  bg.addEventListener('click',function(){var o=menu.classList.toggle('open');bg.setAttribute('aria-expanded',o)});
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');bg.setAttribute('aria-expanded',false)})});
+}catch(e){}
+try{
+  var f=document.getElementById('lead-form');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    document.getElementById('phone-full').value='+7 '+document.getElementById('phone').value.trim();
+    document.getElementById('ok').classList.add('show');
+    f.reset();pick('Не знаю');
+  });
+}catch(e){}
+try{
+  var m=document.getElementById('pm');
+  var op=function(){m.classList.add('show');m.setAttribute('aria-hidden','false')},cl=function(){m.classList.remove('show');m.setAttribute('aria-hidden','true')};
+  document.getElementById('p-open').addEventListener('click',op);
+  document.getElementById('p-close').addEventListener('click',cl);
+  document.getElementById('p-ok').addEventListener('click',cl);
+  m.addEventListener('click',function(e){if(e.target===m)cl()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')cl()});
+}catch(e){}
+try{
+  var els=document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    els.forEach(function(el){el.classList.add('rv-pre');var i=Array.prototype.indexOf.call(el.parentElement.children,el);el.style.transitionDelay=Math.min(i,4)*80+'ms'});
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){x.target.classList.toggle('rv-in',x.isIntersecting)})},{threshold:.12,rootMargin:'0px 0px -30px 0px'});
+    els.forEach(function(el){io.observe(el)});
+  }
+}catch(e){}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+try{
+  if(window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matchMedia('(min-width: 981px)').matches){
+    var cord=document.getElementById('hero-main-cord');
+    var pulseCord=document.getElementById('hero-pulse-cord');
+    var cordLength=cord.getTotalLength();
+    var pulseLength=380;
+    var faucetOpen='#hero-faucet-open', faucetClosed='#hero-faucet-closed';
+
+    var tl=gsap.timeline({repeat:-1});
+    tl.set(faucetOpen,{opacity:1}).set(faucetClosed,{opacity:0}).to({},{duration:.3});
+
+    ['#hero-drop-1','#hero-drop-2','#hero-drop-3'].forEach(function(id){
+      tl.set(id,{opacity:1,scale:.2,y:0,svgOrigin:'414.75 716'})
+        .to(id,{scale:1,duration:.15,ease:'back.out(2)'})
+        .to(id,{y:150,duration:.45,ease:'power2.in'},'>0.04')
+        .to(id,{opacity:0,duration:.12},'-=0.12');
+    });
+
+    tl.set(faucetClosed,{opacity:1}).set(faucetOpen,{opacity:0});
+
+    tl.call(function(){
+      pulseCord.setAttribute('stroke','url(#heroPulseForward)');
+      gsap.set(pulseCord,{strokeDasharray:pulseLength+' '+cordLength,strokeDashoffset:-cordLength,opacity:1});
+    },null,'-=0.05');
+
+    tl.to(pulseCord,{strokeDashoffset:pulseLength,duration:1.6,ease:'power2.inOut'})
+      .to(pulseCord,{opacity:0,duration:.1});
+
+    tl.to('#hero-plug',{x:'+=6',yoyo:true,repeat:5,duration:.04});
+
+    tl.fromTo(['#hero-bolt-1','#hero-bolt-2','#hero-bolt-3'],
+      {scale:.2,opacity:0,transformOrigin:'center center'},
+      {scale:1,opacity:1,duration:.25,stagger:.06,ease:'back.out(2.5)'},
+      '-=0.15'
+    ).to(['#hero-bolt-1','#hero-bolt-2','#hero-bolt-3'],{opacity:0,scale:.6,duration:.25,delay:.2});
+
+    tl.call(function(){
+      pulseCord.setAttribute('stroke','url(#heroPulseBackward)');
+      gsap.set(pulseCord,{strokeDasharray:pulseLength+' '+cordLength,strokeDashoffset:pulseLength,opacity:1});
+    });
+
+    tl.to(pulseCord,{strokeDashoffset:-cordLength,duration:1.6,ease:'power2.inOut'})
+      .to(pulseCord,{opacity:0,duration:.1});
+
+    tl.set(faucetOpen,{opacity:1},'+=0.2').set(faucetClosed,{opacity:0});
+  }
+}catch(e){}
+</script>
+</body>
+</html>
